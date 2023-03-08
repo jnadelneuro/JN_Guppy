@@ -780,6 +780,23 @@ def saveStorenames_altRK_JN(inputParametersPath, data, filepath):
         "RdPE": "R_NP_Ts",
         "Sock": "PE_NR_Ts"
     }
+    aversionNames =  {
+        'nocopy' : {"405A":"control_DA",
+                    "465A": "signal_DA",
+                    "AvdA": "Avoid",
+                    "CueA": "Cue",
+                    "EspA": "Escape",
+                    "ShkA": "Shock"},
+        
+        'copy' : {"405C": "control_DA",
+                "465C": "signal_DA",
+                "AvdB": "Avoid",
+                "CueB": "Cue",
+                "EspB": "Escape",
+                "ShkB": "Shock"}
+    }
+    
+
     
     #are we in DV or 405 situation: remove unneeded events
     #default if RI60 is selected is for FRS, RI60, Shock
@@ -794,7 +811,7 @@ def saveStorenames_altRK_JN(inputParametersPath, data, filepath):
     #get file name
     filename = filepath.rsplit('\\', 1)[-1]
     #choose situation for storelist
-    # JN update--this is now chosen on the GUI
+    #* JN update--this is now chosen on the GUI
     if inputParametersPath['storeNameSelect'] == 'ASAP':
         thenames = [ASAP_storenames.get(e,e) for e in somenames]
         arr3, arr4 = list(ASAP_storenames.keys()), list(ASAP_storenames.values())
@@ -805,6 +822,14 @@ def saveStorenames_altRK_JN(inputParametersPath, data, filepath):
     #elif any(x in filename for x in ["Omi"]):
     #    thenames = [switcher_omi.get(e,e) for e in somenames]
     #    arr3, arr4 = list(switcher_omi.keys()), list(switcher_omi.values())
+    if inputParametersPath['storeNameSelect'] == 'Aversion':
+        if 'Copy' in filename:
+            thenames = [aversionNames['copy'].get(e,e) for e in somenames]
+            arr3, arr4 = list(aversionNames['copy'].keys()), list(aversionNames['copy'].values())
+        else:
+            thenames = [aversionNames['nocopy'].get(e,e) for e in somenames]
+            arr3, arr4 = list(aversionNames['nocopy'].keys()), list(aversionNames['copy'].values())
+            
     else:
         raise ValueError('Event naming contingencies did not understand this file... see saveStorenames_altRK_JN')
     

@@ -32,7 +32,7 @@ template = pn.template.MaterialTemplate(title='Input Parameters GUI')
 
 mark_down_1 = pn.pane.Markdown("""**Select folders for the analysis from the file selector below**""", width=600)
 #previously '~', no C:\Users\rfkov\Documents\SynapseData\LBN_Synapse_Data
-files_1 = pn.widgets.FileSelector(r'C:\Users\jacob\Documents\Lerner_Lab\SynapseData', name='folderNames', height=300, width=800)
+files_1 = pn.widgets.FileSelector('~', name='folderNames', height=300, width=800)
 
 
 explain_time_artifacts = pn.pane.Markdown("""
@@ -100,8 +100,8 @@ artifactsRemovalMethod = pn.widgets.Select(name='removeArtifacts method',
 # JN ADDING 2/4/23
 # this is to add a button that will let me select among storenames based on experiment
 storeNameSelect = pn.widgets.Select(name='storenames set', 
-                                           value='ASAP', 
-                                           options=['ASAP', 'RI60'],
+                                           value='Aversion', 
+                                           options=['Aversion','ASAP', 'RI60'],
                                           width=250)
 
 
