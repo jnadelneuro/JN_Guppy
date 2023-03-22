@@ -109,7 +109,7 @@ no_channels_np = pn.widgets.LiteralInput(name='Number of channels (Neurophotomet
 
 z_score_computation = pn.widgets.Select(name='z-score computation Method', 
                                         options=['standard z-score', 'baseline z-score', 'modified z-score'], 
-                                        value='standard z-score', width=200)
+                                        value='baseline z-score', width=200)
 baseline_wd_strt = pn.widgets.LiteralInput(name='Baseline Window Start Time (s) (int)', value=-5, type=int, width=200)
 baseline_wd_end = pn.widgets.LiteralInput(name='Baseline Window End Time (s) (int)', value=-65, type=int, width=200)
 
