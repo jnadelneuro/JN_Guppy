@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[5]:
-
-
 #%load_ext autoreload
 #%autoreload 2
 
@@ -32,7 +26,7 @@ template = pn.template.MaterialTemplate(title='Input Parameters GUI')
 
 mark_down_1 = pn.pane.Markdown("""**Select folders for the analysis from the file selector below**""", width=600)
 #previously '~', no C:\Users\rfkov\Documents\SynapseData\LBN_Synapse_Data
-files_1 = pn.widgets.FileSelector(r'C:\Users\jacob\Documents\Lerner_Lab\SynapseData', name='folderNames', height=300, width=800)
+files_1 = pn.widgets.FileSelector('~', name='folderNames', height=300, width=800)
 
 
 explain_time_artifacts = pn.pane.Markdown("""
@@ -102,7 +96,12 @@ artifactsRemovalMethod = pn.widgets.Select(name='removeArtifacts method',
 storeNameSelect = pn.widgets.Select(name='storenames set', 
                                            value='ASAP', 
                                            options=['ASAP', 'RI60'],
-                                          width=250)
+                                          width=100)
+
+regionSelect = pn.widgets.Select(name='striatal region', 
+                                           value='DLS', 
+                                           options=['DLS', 'DMS'],
+                                          width=100)
 
 
 no_channels_np = pn.widgets.LiteralInput(name='Number of channels (Neurophotometrics only)',
@@ -111,8 +110,8 @@ no_channels_np = pn.widgets.LiteralInput(name='Number of channels (Neurophotomet
 z_score_computation = pn.widgets.Select(name='z-score computation Method', 
                                         options=['standard z-score', 'baseline z-score', 'modified z-score'], 
                                         value='standard z-score', width=200)
-baseline_wd_strt = pn.widgets.LiteralInput(name='Baseline Window Start Time (s) (int)', value=0, type=int, width=200)
-baseline_wd_end = pn.widgets.LiteralInput(name='Baseline Window End Time (s) (int)', value=0, type=int, width=200)
+baseline_wd_strt = pn.widgets.LiteralInput(name='Baseline Window Start Time (s) (int)', value=-5, type=int, width=200)
+baseline_wd_end = pn.widgets.LiteralInput(name='Baseline Window End Time (s) (int)', value=-65, type=int, width=200)
 
 explain_z_score = pn.pane.Markdown("""
                                    ***Note :***<br>
@@ -211,7 +210,7 @@ visualize_zscore_or_dff = pn.widgets.Select(name='z-score or \u0394F/F? (for vis
 
 individual_analysis_wd_2 = pn.Column(
                                     explain_time_artifacts, pn.Row(numberOfCores, combine_data), 
-                                    storeNameSelect, isosbestic_control, timeForLightsTurnOn,
+                                    pn.Row(storeNameSelect, regionSelect), isosbestic_control, timeForLightsTurnOn,
                                     moving_avg_filter, computePsth, transients, plot_zScore_dff, 
                                     moving_wd, pn.Row(highAmpFilt, transientsThresh),
                                     no_channels_np, pn.Row(removeArtifacts, artifactsRemovalMethod)
@@ -232,6 +231,7 @@ def getInputParameters():
         "timeForLightsTurnOn": timeForLightsTurnOn.value,
         "filter_window": moving_avg_filter.value,
         "storeNameSelect" : storeNameSelect.value,
+        "regionSelect" : regionSelect.value,
         "removeArtifacts": removeArtifacts.value,
         "artifactsRemovalMethod": artifactsRemovalMethod.value,
         "noChannels": no_channels_np.value,
@@ -411,16 +411,3 @@ template.main.append(group)
 template.main.append(visualize)
 
 template.show()
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-

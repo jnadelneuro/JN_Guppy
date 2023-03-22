@@ -367,10 +367,21 @@ def CheckMED(inputParameters, op, filepath, data, storesList):
 
     #pulling in operant data from R repository for a given animal
     # JN altering this to align by animal and date instead
-    operantPath = r"C:\Users\jacob\Documents\Lerner_Lab\OperantData.h5py"
+    #! operantPath = r"C:\Users\jan7154\Documents\ASAP_Analysis\behavior\output_datafiles\OperantData.h5py"
+    #! operantPath = r"C:\Users\jan7154\Documents\wtf_TTL\behavior\output_datafiles\OperantData.h5py"
+    #? operantPath = r"C:\Users\jls2314\Documents\ASAP\Behavior\output_datafiles\OperantData.h5py"
+    operantPath = r"C:\Users\jan7154\Documents\JLS_DLS\Behavior\output_datafiles\OperantData.h5py"
     # OLD RK fileVals = filepath.split('\\')[-1].split('-')[0].split('_') #['LBN', '078', 'RI60R12S1'] extracted from file name give group names in h5 file from R with MED data
     # following line extracts mouse number (e.g. 531-1) and date (yymmdd eg 230124)
-    fileVals = [inputParameters['storeNameSelect'], "-".join(filepath.split('\\')[-1].split('_')[3].split('-')[0:2]), filepath.split('\\')[-1].split('_')[3].split('-')[2]]
+    try:
+        fileVals = [inputParameters['storeNameSelect'], "-".join(filepath.split('\\')[-1].split('_')[3].split('-')[0:2]), filepath.split('\\')[-1].split('_')[3].split('-')[2]]
+    except:
+        a=1
+    
+    try:
+        fileVals = [inputParameters['storeNameSelect'], filepath.split('\\')[-1].split('_')[1].split('-')[0],filepath.split('\\')[-1].split('_')[1].split('-')[1]]
+    except:
+        raise Exception('data not stored in familiar way!')    
     fileKeys = ['Experiment', 'Subject', 'Paradigm']
     #if fileVals[0] == 'LN' or fileVals[0] == 'LNC' or fileVals[0] == 'LBNC' or fileVals[0] == 'LNBC': #common typo in my data
     #    fileVals[0] = 'LBN'

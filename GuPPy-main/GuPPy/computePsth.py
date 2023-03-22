@@ -18,6 +18,7 @@ from preprocess import get_all_stores_for_combining_data
 from computeCorr import computeCrossCorrelation
 from computeCorr import getCorrCombinations
 from computeCorr import make_dir
+import pyarrow.feather as feather
 
 # function to read hdf5 file
 def read_hdf5(event, filepath, key):
@@ -68,6 +69,7 @@ def create_Df_area_peak(filepath, arr, name, index=[]):
     df = pd.DataFrame(arr, index=index)
 
     df.to_hdf(op, key='df', mode='w')
+    #df.to_hdf(op, key='df', mode='w')
 
 def read_Df_area_peak(filepath, name):
     op = os.path.join(filepath, 'peak_AUC_'+name+'.h5')
@@ -410,7 +412,8 @@ def findPSTHPeakAndArea(filepath, event, inputParameters):
             index = [fileName[0]+'_'+s for s in psth_mean_bin_names]
             create_Df_area_peak(filepath, peak_area, event+'_'+name_1+'_'+basename, index=index) # columns=['peak', 'area']
             create_csv_area_peak(filepath, peak_area, event+'_'+name_1+'_'+basename, index=index)
-
+            # create_feather_traces(filepath, psth_mean_bin_mean, event+'_'+name_1+'_'+basename, index=index)
+            
             print('Peak and Area for PSTH mean signal for event {} computed.'.format(event))
 
 def makeAverageDir(filepath):
