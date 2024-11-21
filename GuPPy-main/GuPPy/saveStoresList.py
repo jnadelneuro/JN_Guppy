@@ -749,13 +749,13 @@ def saveStorenames_altRK_JN(inputParametersPath, data, filepath):
 
     #defining case_switch type arguments for various situations
     ASAP_storenames = {
-        "405A":"control_" + inputParametersPath["regionSelect"],
+        "405A":"control_DMS",
         "405C": "control_SNc",
-        "465A": "signal_"+inputParametersPath["regionSelect"],
+        "465A": "signal_DMS",
         "465C": "signal_SNc",
-        "Dv1A": "control_"+inputParametersPath["regionSelect"],
+        "Dv1A": "control_DMS",
         "Dv2A": "control_SNc",
-        "Dv3B": "signal_"+inputParametersPath["regionSelect"],
+        "Dv3B": "signal_DMS",
         "Dv4B": "signal_SNc",
         "LPUn": "Left poke unrewarded",
         "LRew": "Left poke rewarded",
@@ -764,26 +764,19 @@ def saveStorenames_altRK_JN(inputParametersPath, data, filepath):
         "RPUn": "Right poke unrewarded",
         "RRew": "Right poke rewarded",
         "TlSt": "Trial start"
+    },
+    AA_storenames = {
+        "405A" : "control_DMS",
+        "405C" : "control_TS",
+        "465A" : "signal_DMS",
+        "465C" : "signal_TS",
+        "Avod" : "avoid",
+        "Coff" : "cue off",
+        "Crss" : "cross",
+        "Cues" : "cue on",
+        "Escp" : "escape",
+        "Shck" : "shock"
     }
-
-    ASAP_Rig2 = {
-        "405A":"control_" + inputParametersPath["regionSelect"],
-        "405C": "control_SNc",
-        "465A": "signal_"+inputParametersPath["regionSelect"],
-        "465C": "signal_SNc",
-        "Dv1A": "control_"+inputParametersPath["regionSelect"],
-        "Dv2A": "control_SNc",
-        "Dv3B": "signal_"+inputParametersPath["regionSelect"],
-        "Dv4B": "signal_SNc",
-        "LITI": "Left poke unrewarded",
-        "RITI": "Left poke rewarded",
-        "PrtN": "Port unrewarded",
-        "Tone": "Port rewarded",
-        "RueR": "Right poke unrewarded",
-        "PrtR": "Right poke rewarded",
-        "LueR": "Trial start"
-    }
-    
     switcher_omi =  {
         "405A":"control_NAcc",
         "405C": "control_DMS",
@@ -805,7 +798,7 @@ def saveStorenames_altRK_JN(inputParametersPath, data, filepath):
     # if ASAP is selected then it's just all the same
     # import re
     if "Dv1A" in allnames:
-        removenames = ['Fi1d', 'Fi1r', 'Fi1i', "Fi1d", "Fi2d",'Dv1B','Dv2B']
+        removenames = ['Fi1d', 'Fi1r', 'Fi1i', "Fi1d", "Fi2d"]
         somenames = [e for e in allnames if e not in removenames]
     else:
         removenames = ['Fi1r', 'Fi1i', 'Fi2r', 'Fi2i', "Fi1d", "Fi2d", "Tick", "405B", "405D", "465B", "465D"]
@@ -815,12 +808,11 @@ def saveStorenames_altRK_JN(inputParametersPath, data, filepath):
     #choose situation for storelist
     # JN update--this is now chosen on the GUI
     if inputParametersPath['storeNameSelect'] == 'ASAP':
-        if ("Dv1A" in somenames) & (int(filename.split('-')[1]) < 230305):
-            thenames = [ASAP_Rig2.get(e,e) for e in somenames]
-            arr3, arr4 = list(ASAP_Rig2.keys()), list(ASAP_Rig2.values())
-        else:
-            thenames = [ASAP_storenames.get(e,e) for e in somenames]
-            arr3, arr4 = list(ASAP_storenames.keys()), list(ASAP_storenames.values())
+        thenames = [ASAP_storenames.get(e,e) for e in somenames]
+        arr3, arr4 = list(ASAP_storenames.keys()), list(ASAP_storenames.values())
+    elif inputParametersPath['storeNameSelect'] == 'Avoid':
+        thenames = [AA_storenames.get(e,e) for e in somenames]
+        arr3, arr4 = list(AA_storenames.keys()), list(AA_storenames.values())
 
     #if any(x in filename for x in ["_RI30", "_RI60", "_FR1R","_FR1L", "_Shock"]):
     #    thenames = [switcher_def.get(e,e) for e in somenames]
@@ -864,7 +856,7 @@ def execute_autoRK_JN(inputParameters):
     num_ch = inputParameters['noChannels']
 
     print(folderNames)
-    # In[5]:
+   # In[5]:
 
     for i in folderNames:
         filepath = os.path.join(inputParameters['abspath'], i)

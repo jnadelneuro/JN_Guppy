@@ -210,13 +210,13 @@ def readtev(data, filepath, event, outputPath):
         tevfilepath = tevfilepath[0]
 
 
-    data['name'] = np.asarray(data['name'], dtype=np.str)
+    data['name'] = np.asarray(data['name'], dtype=str)
 
     allnames = np.unique(data['name'])
 
     index = []
     for i in range(len(allnames)):
-        length = len(np.str(allnames[i]))
+        length = len(str(allnames[i]))
         if length<4:
             index.append(i)
 
@@ -253,7 +253,7 @@ def readtev(data, filepath, event, outputPath):
 
     S = dict()
 
-    S['storename'] = np.str(event)
+    S['storename'] = str(event)
     S['sampling_rate'] = data['frequency'][first_row]
     S['timestamps'] = np.asarray(data['timestamp'][allIndexesWhereEventIsPresent[0]])
     S['channels'] = np.asarray(data['chan'][allIndexesWhereEventIsPresent[0]])
@@ -367,21 +367,14 @@ def CheckMED(inputParameters, op, filepath, data, storesList):
 
     #pulling in operant data from R repository for a given animal
     # JN altering this to align by animal and date instead
-    #! operantPath = r"C:\Users\jan7154\Documents\ASAP_Analysis\behavior\output_datafiles\OperantData.h5py"
-    #! operantPath = r"C:\Users\jan7154\Documents\wtf_TTL\behavior\output_datafiles\OperantData.h5py"
-    #? operantPath = r"C:\Users\jls2314\Documents\ASAP\Behavior\output_datafiles\OperantData.h5py"
-    operantPath = r"C:\Users\jan7154\Documents\JLS_DLS\Behavior\output_datafiles\OperantData.h5py"
+    operantPath = r"R:\Basic_Sciences\Phys\Lerner_Lab_tnl2633\Evan\aCUS_C7_Active_Avoidance\official_analysis\behavior\output_datafiles\OperantData.h5py"
     # OLD RK fileVals = filepath.split('\\')[-1].split('-')[0].split('_') #['LBN', '078', 'RI60R12S1'] extracted from file name give group names in h5 file from R with MED data
     # following line extracts mouse number (e.g. 531-1) and date (yymmdd eg 230124)
     try:
         fileVals = [inputParameters['storeNameSelect'], "-".join(filepath.split('\\')[-1].split('_')[3].split('-')[0:2]), filepath.split('\\')[-1].split('_')[3].split('-')[2]]
     except:
-        a=1
+        fileVals = [inputParameters['storeNameSelect'], '-'.join(filepath.split('\\')[-1].split('_')[1].split('-')[0:2]), filepath.split('\\')[-1].split('_')[1].split('-')[2]]
     
-    try:
-        fileVals = [inputParameters['storeNameSelect'], filepath.split('\\')[-1].split('_')[1].split('-')[0],filepath.split('\\')[-1].split('_')[1].split('-')[1]]
-    except:
-        raise Exception('data not stored in familiar way!')    
     fileKeys = ['Experiment', 'Subject', 'Paradigm']
     #if fileVals[0] == 'LN' or fileVals[0] == 'LNC' or fileVals[0] == 'LBNC' or fileVals[0] == 'LNBC': #common typo in my data
     #    fileVals[0] = 'LBN'
@@ -718,17 +711,17 @@ def CheckMED(inputParameters, op, filepath, data, storesList):
     #the ouput is FirstMatchTs which is an array where each column correponds to various important values for 
     #score comparison and data alignment (if using first verifiable matching Ts)
 
-    if np.amax(out) < 1:
-        print(" ".join(fileVals) +  "- No perfect MED to Syn match available, see mismatchLog log:")
-        print(os.path.join(inputDir, "mismatchLog.hdf5"))
-        print('MED names corresponding to Matches/Scores:')
-        print(', '.join(list_k_r))
-        print('Count of most consecutive matchinig timestamp diffs:')
-        print(np.ndarray.tolist(FirstMatchTs[5,:]))
-        print('Scores (proportion matching):')
-        print(np.ndarray.tolist(FirstMatchTs[6,:]))
-        mismatch = 'No perfect MED to Syn match available'
-        write_csv_mismatch(mismatch, H5group, inputDir)
+    # if (np.amax(out) < 1) or :
+    #     print(" ".join(fileVals) +  "- No perfect MED to Syn match available, see mismatchLog log:")
+    #     print(os.path.join(inputDir, "mismatchLog.hdf5"))
+    #     print('MED names corresponding to Matches/Scores:')
+    #     print(', '.join(list_k_r))
+    #     print('Count of most consecutive matchinig timestamp diffs:')
+    #     print(np.ndarray.tolist(FirstMatchTs[5,:]))
+    #     print('Scores (proportion matching):')
+    #     print(np.ndarray.tolist(FirstMatchTs[6,:]))
+    #     mismatch = 'No perfect MED to Syn match available'
+    #     write_csv_mismatch(mismatch, H5group, inputDir)
 
     #now find earlies timestamp to adjust things to (in Syn record because GUPPY will adjust later)
     if any(FirstMatchTs[6,:] > 2): #if there's more than 1 consecutive match
@@ -851,7 +844,7 @@ def CheckMED(inputParameters, op, filepath, data, storesList):
 
         if k_r in pythonH5_dict_all.keys():
             S = dict()
-            S['storename'] = np.str(k_r)
+            S['storename'] = str(k_r)
             S['sampling_rate'] = float32(0)
             S['timestamps'] = np.array(pythonH5_dict_all[k_r],dtype=float64)
             S['channels'] = np.ones(len(pythonH5_dict_all[k_r]), dtype=int32)

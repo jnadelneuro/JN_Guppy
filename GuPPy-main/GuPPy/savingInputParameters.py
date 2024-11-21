@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[5]:
+
+
 #%load_ext autoreload
 #%autoreload 2
 
@@ -19,14 +25,14 @@ def make_dir(filepath):
     return op
 
 
-
+os.chdir(r'C:\Users\jacob\OneDrive\Documents\GitHub\JN_Guppy\GuPPy-main\GuPPy')
 template = pn.template.MaterialTemplate(title='Input Parameters GUI')
 
 #pn.config.sizing_mode = 'stretch_width'
 
 mark_down_1 = pn.pane.Markdown("""**Select folders for the analysis from the file selector below**""", width=600)
 #previously '~', no C:\Users\rfkov\Documents\SynapseData\LBN_Synapse_Data
-files_1 = pn.widgets.FileSelector('~', name='folderNames', height=300, width=800)
+files_1 = pn.widgets.FileSelector(r'D:\Data_analysis\Lerner_Lab\aCUS\aCUS_Sept2024_Avoidance', name='folderNames', height=300, width=800)
 
 
 explain_time_artifacts = pn.pane.Markdown("""
@@ -70,11 +76,11 @@ numberOfCores = pn.widgets.LiteralInput(name='# of cores (int)', value=5, type=i
 
 combine_data = pn.widgets.Select(name='Combine Data? (bool)', value=False, options=[True, False], width=125)
 
-computePsth = pn.widgets.Select(name='z_score and/or \u0394F/F? (psth)', options=['Both', 'z_score', 'dff'], width=250)
+computePsth = pn.widgets.Select(name='z_score and/or \u0394F/F? (psth)', options=['Both', 'z_score', 'dff'], value='z_score', width=250)
 
-transients = pn.widgets.Select(name='z_score and/or \u0394F/F? (transients)', options=['Both', 'z_score', 'dff'], width=250)
+transients = pn.widgets.Select(name='z_score and/or \u0394F/F? (transients)', options=['Both', 'z_score', 'dff'], value='z_score', width=250)
 
-plot_zScore_dff = pn.widgets.Select(name='z-score plot and/or \u0394F/F plot?', options=['z_score', 'dff', 'Both', 'None'], value='z_score', width=250)
+plot_zScore_dff = pn.widgets.Select(name='z-score plot and/or \u0394F/F plot?', options=['z_score', 'dff', 'Both', 'None'], value='None', width=250)
 
 moving_wd = pn.widgets.LiteralInput(name='Moving Window for transients detection (s) (int)', value=15, type=int, width=250)
 
@@ -84,7 +90,7 @@ transientsThresh = pn.widgets.LiteralInput(name='TD Thresh (int)', value=3, type
 
 moving_avg_filter = pn.widgets.LiteralInput(name='Window for Moving Average filter (int)', value=100, type=int, width=250)
 
-removeArtifacts = pn.widgets.Select(name='removeArtifacts? (bool)', value=False, options=[True, False], width=125)
+removeArtifacts = pn.widgets.Select(name='removeArtifacts? (bool)', value=True, options=[True, False], width=125)
 
 artifactsRemovalMethod = pn.widgets.Select(name='removeArtifacts method', 
                                            value='replace with NaN', 
@@ -94,14 +100,9 @@ artifactsRemovalMethod = pn.widgets.Select(name='removeArtifacts method',
 # JN ADDING 2/4/23
 # this is to add a button that will let me select among storenames based on experiment
 storeNameSelect = pn.widgets.Select(name='storenames set', 
-                                           value='ASAP', 
-                                           options=['ASAP', 'RI60'],
-                                          width=100)
-
-regionSelect = pn.widgets.Select(name='striatal region', 
-                                           value='DLS', 
-                                           options=['DLS', 'DMS'],
-                                          width=100)
+                                           value='Avoid', 
+                                           options=['ASAP', 'RI60',"Avoid"],
+                                          width=250)
 
 
 no_channels_np = pn.widgets.LiteralInput(name='Number of channels (Neurophotometrics only)',
@@ -109,9 +110,9 @@ no_channels_np = pn.widgets.LiteralInput(name='Number of channels (Neurophotomet
 
 z_score_computation = pn.widgets.Select(name='z-score computation Method', 
                                         options=['standard z-score', 'baseline z-score', 'modified z-score'], 
-                                        value='baseline z-score', width=200)
-baseline_wd_strt = pn.widgets.LiteralInput(name='Baseline Window Start Time (s) (int)', value=-5, type=int, width=200)
-baseline_wd_end = pn.widgets.LiteralInput(name='Baseline Window End Time (s) (int)', value=-65, type=int, width=200)
+                                        value='standard z-score', width=200)
+baseline_wd_strt = pn.widgets.LiteralInput(name='Baseline Window Start Time (s) (int)', value=0, type=int, width=200)
+baseline_wd_end = pn.widgets.LiteralInput(name='Baseline Window End Time (s) (int)', value=0, type=int, width=200)
 
 explain_z_score = pn.pane.Markdown("""
                                    ***Note :***<br>
@@ -180,8 +181,8 @@ peak_explain = pn.pane.Markdown("""
                                 """, width=500)
 
 
-start_end_point_df = pd.DataFrame({'Peak Start time': [-2.0, -2.0, 0.0, -5.0, 0.0, 5.0, -1.0, 0.0, -0.5, 0.0], 
-                                   'Peak End time':   [2.0, 0.0, 2.0, 0.0, 3.0, 10.0, 0.0, 1.0, 0.0, 0.5]})
+start_end_point_df = pd.DataFrame({'Peak Start time': [], 
+                                   'Peak End time':   []})
 
 df_widget = pn.widgets.DataFrame(start_end_point_df, name='DataFrame', 
                                  auto_edit=True, show_index=False, row_height=20, width=450)
@@ -210,7 +211,7 @@ visualize_zscore_or_dff = pn.widgets.Select(name='z-score or \u0394F/F? (for vis
 
 individual_analysis_wd_2 = pn.Column(
                                     explain_time_artifacts, pn.Row(numberOfCores, combine_data), 
-                                    pn.Row(storeNameSelect, regionSelect), isosbestic_control, timeForLightsTurnOn,
+                                    storeNameSelect, isosbestic_control, timeForLightsTurnOn,
                                     moving_avg_filter, computePsth, transients, plot_zScore_dff, 
                                     moving_wd, pn.Row(highAmpFilt, transientsThresh),
                                     no_channels_np, pn.Row(removeArtifacts, artifactsRemovalMethod)
@@ -231,7 +232,6 @@ def getInputParameters():
         "timeForLightsTurnOn": timeForLightsTurnOn.value,
         "filter_window": moving_avg_filter.value,
         "storeNameSelect" : storeNameSelect.value,
-        "regionSelect" : regionSelect.value,
         "removeArtifacts": removeArtifacts.value,
         "artifactsRemovalMethod": artifactsRemovalMethod.value,
         "noChannels": no_channels_np.value,
@@ -411,3 +411,16 @@ template.main.append(group)
 template.main.append(visualize)
 
 template.show()
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+

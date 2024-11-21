@@ -367,7 +367,7 @@ def CheckMED(inputParameters, op, filepath, data, storesList):
 
     #pulling in operant data from R repository for a given animal
     # JN altering this to align by animal and date instead
-    operantPath = r"C:\Users\jan7154\Documents\ASAP_Analysis\behavior\output_datafiles\OperantData.h5py"
+    operantPath = r"R:\Basic_Sciences\Phys\Lerner_Lab_tnl2633\Evan\aCUS_C7_Active_Avoidance\official_analysis\behavior\output_datafiles\OperantData.h5py"
     # OLD RK fileVals = filepath.split('\\')[-1].split('-')[0].split('_') #['LBN', '078', 'RI60R12S1'] extracted from file name give group names in h5 file from R with MED data
     # following line extracts mouse number (e.g. 531-1) and date (yymmdd eg 230124)
     fileVals = [inputParameters['storeNameSelect'], "-".join(filepath.split('\\')[-1].split('_')[3].split('-')[0:2]), filepath.split('\\')[-1].split('_')[3].split('-')[2]]
@@ -377,7 +377,7 @@ def CheckMED(inputParameters, op, filepath, data, storesList):
     fileD = dict(zip(fileKeys, fileVals)) #{'Experiment': 'LBN', 'Subject': '078', 'Paradigm': 'RI60R12S1'}
     H5group = '/'.join(fileD.values()) #'data.LBN/078/RI60R12S1'
     with h5py.File(operantPath, 'r') as f: #with is here to close everything up nicely... could just close it though
-        OperantH5_dict = dict()
+        OperantH5_dict = dicFt()
         for dset in f[H5group].keys():  #this will loop through all events in group, names dset     
             #if any(f[H5group][dset]['value'][:]):
             if any(f[H5group][dset][()][:]):
