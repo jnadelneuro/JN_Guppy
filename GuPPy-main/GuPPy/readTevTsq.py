@@ -367,7 +367,8 @@ def CheckMED(inputParameters, op, filepath, data, storesList):
 
     #pulling in operant data from R repository for a given animal
     # JN altering this to align by animal and date instead
-    operantPath = r"R:\Basic_Sciences\Phys\Lerner_Lab_tnl2633\Evan\aCUS_C7_Active_Avoidance\official_analysis\behavior\output_datafiles\OperantData.h5py"
+    # operantPath = r"R:\Basic_Sciences\Phys\Lerner_Lab_tnl2633\Evan\aCUS_C7_Active_Avoidance\official_analysis\behavior\output_datafiles\OperantData.h5py"
+    operantPath = r'/Volumes/fsmresfiles/Basic_Sciences/Phys/Lerner_Lab_tnl2633/Evan/aCUS_C7_Active_Avoidance'
     # OLD RK fileVals = filepath.split('\\')[-1].split('-')[0].split('_') #['LBN', '078', 'RI60R12S1'] extracted from file name give group names in h5 file from R with MED data
     # following line extracts mouse number (e.g. 531-1) and date (yymmdd eg 230124)
     try:

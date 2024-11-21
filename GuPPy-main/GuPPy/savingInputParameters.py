@@ -25,14 +25,14 @@ def make_dir(filepath):
     return op
 
 
-os.chdir(r'C:\Users\jacob\OneDrive\Documents\GitHub\JN_Guppy\GuPPy-main\GuPPy')
+os.chdir(r'/Users/evanswanson/Documents/GitHub/JN_Guppy/GuPPy-main')
 template = pn.template.MaterialTemplate(title='Input Parameters GUI')
 
 #pn.config.sizing_mode = 'stretch_width'
 
 mark_down_1 = pn.pane.Markdown("""**Select folders for the analysis from the file selector below**""", width=600)
 #previously '~', no C:\Users\rfkov\Documents\SynapseData\LBN_Synapse_Data
-files_1 = pn.widgets.FileSelector(r'D:\Data_analysis\Lerner_Lab\aCUS\aCUS_Sept2024_Avoidance', name='folderNames', height=300, width=800)
+files_1 = pn.widgets.FileSelector(r'/Volumes/Data 02', name='folderNames', height=300, width=800)
 
 
 explain_time_artifacts = pn.pane.Markdown("""
