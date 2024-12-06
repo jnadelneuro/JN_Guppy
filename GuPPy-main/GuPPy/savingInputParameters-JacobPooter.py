@@ -25,14 +25,14 @@ def make_dir(filepath):
     return op
 
 
-os.chdir(r'/Users/evanswanson/Documents/GitHub/JN_Guppy/GuPPy-main/GuPPy')
+os.chdir(r'C:\Users\jacob\OneDrive\Documents\GitHub\JN_Guppy\GuPPy-main\GuPPy')
 template = pn.template.MaterialTemplate(title='Input Parameters GUI')
 
 #pn.config.sizing_mode = 'stretch_width'
 
 mark_down_1 = pn.pane.Markdown("""**Select folders for the analysis from the file selector below**""", width=600)
 #previously '~', no C:\Users\rfkov\Documents\SynapseData\LBN_Synapse_Data
-files_1 = pn.widgets.FileSelector(r'/Volumes/Data 02', name='folderNames', height=300, width=800)
+files_1 = pn.widgets.FileSelector(r'D:\Data_analysis\Lerner_Lab\aCUS\Sept2024_Cohort7', name='folderNames', height=300, width=800)
 
 
 explain_time_artifacts = pn.pane.Markdown("""
@@ -100,7 +100,7 @@ artifactsRemovalMethod = pn.widgets.Select(name='removeArtifacts method',
 # JN ADDING 2/4/23
 # this is to add a button that will let me select among storenames based on experiment
 storeNameSelect = pn.widgets.Select(name='storenames set', 
-                                           value='Avoid', 
+                                           value='RI60', 
                                            options=['ASAP', 'RI60',"Avoid"],
                                           width=250)
 
