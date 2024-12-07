@@ -367,15 +367,20 @@ def CheckMED(inputParameters, op, filepath, data, storesList):
 
     #pulling in operant data from R repository for a given animal
     # JN altering this to align by animal and date instead
-    # operantPath = r"R:\Basic_Sciences\Phys\Lerner_Lab_tnl2633\Evan\aCUS_C7_Active_Avoidance\official_analysis\behavior\output_datafiles\OperantData.h5py"
-    operantPath = r'/Volumes/fsmresfiles/Basic_Sciences/Phys/Lerner_Lab_tnl2633/Evan/aCUS_C7_Active_Avoidance/offical_analysis/behavior/output_datafiles/OperantData.h5py'
+    operantPath = r"R:\Basic_Sciences\Phys\Lerner_Lab_tnl2633\Evan\aCUS_C7_Active_Avoidance\official_analysis\behavior\output_datafiles\OperantData.h5py"
+    operantPath = r"R:\Basic_Sciences\Phys\Lerner_Lab_tnl2633\Jacob\aCUS\_aCUS_Sept2024_Cohort7\analysis\behavior\output_datafiles\OperantData.h5py"
     # OLD RK fileVals = filepath.split('\\')[-1].split('-')[0].split('_') #['LBN', '078', 'RI60R12S1'] extracted from file name give group names in h5 file from R with MED data
     # following line extracts mouse number (e.g. 531-1) and date (yymmdd eg 230124)
     try:
         fileVals = [inputParameters['storeNameSelect'], "-".join(filepath.split('\\')[-1].split('_')[3].split('-')[0:2]), filepath.split('\\')[-1].split('_')[3].split('-')[2]]
     except:
-        fileVals = [inputParameters['storeNameSelect'], '-'.join(filepath.split('\\')[-1].split('_')[1].split('-')[0:2]), filepath.split('\\')[-1].split('_')[1].split('-')[2]]
-    
+        try:
+            fileVals = [inputParameters['storeNameSelect'], '-'.join(filepath.split('\\')[-1].split('_')[1].split('-')[0:2]), filepath.split('\\')[-1].split('_')[1].split('-')[2]]
+        except:
+            try:
+                fileVals = [inputParameters['storeNameSelect'], '-'.join(filepath.split('\\')[-1].split('_')[2].split('-')[0:2]), filepath.split('\\')[-1].split('_')[2].split('-')[2]]
+            except:
+                print('aw beans no h5 shit or something idk man')
     fileKeys = ['Experiment', 'Subject', 'Paradigm']
     #if fileVals[0] == 'LN' or fileVals[0] == 'LNC' or fileVals[0] == 'LBNC' or fileVals[0] == 'LNBC': #common typo in my data
     #    fileVals[0] = 'LBN'
