@@ -1,12 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[5]:
-
-
-#%load_ext autoreload
-#%autoreload 2
-
 import os
 import subprocess
 import json
@@ -32,7 +23,8 @@ template = pn.template.MaterialTemplate(title='Input Parameters GUI')
 
 mark_down_1 = pn.pane.Markdown("""**Select folders for the analysis from the file selector below**""", width=600)
 #previously '~', no C:\Users\rfkov\Documents\SynapseData\LBN_Synapse_Data
-files_1 = pn.widgets.FileSelector(r'C:\Users\jan7154\Documents\aCUS_analysis\photo_Cohort7_Sept2024\raw_photo', name='folderNames', height=300, width=800)
+files_1 = pn.widgets.FileSelector(r'R:\Basic_Sciences\Phys\Lerner_Lab_tnl2633\Jacob\aCUS\ALL_RI60_PHOTO\photometry\processed', name='folderNames', height=300, width=800)
+files_1 = pn.widgets.FileSelector(r'C:\Users\jan7154\Documents\aCUS_analysis\cohort10TSPhoto\to process', name='folderNames', height=300, width=800)
 
 
 explain_time_artifacts = pn.pane.Markdown("""
@@ -76,9 +68,9 @@ numberOfCores = pn.widgets.LiteralInput(name='# of cores (int)', value=5, type=i
 
 combine_data = pn.widgets.Select(name='Combine Data? (bool)', value=False, options=[True, False], width=125)
 
-computePsth = pn.widgets.Select(name='z_score and/or \u0394F/F? (psth)', options=['Both', 'z_score', 'dff'], value='z_score', width=250)
+computePsth = pn.widgets.Select(name='z_score and/or \u0394F/F? (psth)', options=['Both', 'z_score', 'dff'], value='Both', width=250)
 
-transients = pn.widgets.Select(name='z_score and/or \u0394F/F? (transients)', options=['Both', 'z_score', 'dff'], value='z_score', width=250)
+transients = pn.widgets.Select(name='z_score and/or \u0394F/F? (transients)', options=['Both', 'z_score', 'dff'], value='Both', width=250)
 
 plot_zScore_dff = pn.widgets.Select(name='z-score plot and/or \u0394F/F plot?', options=['z_score', 'dff', 'Both', 'None'], value='None', width=250)
 
@@ -100,8 +92,8 @@ artifactsRemovalMethod = pn.widgets.Select(name='removeArtifacts method',
 # JN ADDING 2/4/23
 # this is to add a button that will let me select among storenames based on experiment
 storeNameSelect = pn.widgets.Select(name='storenames set', 
-                                           value='RI60', 
-                                           options=['ASAP', 'RI60',"Avoid"],
+                                           value='RI60_TS', 
+                                           options=['ASAP', 'RI60_TS',"Avoid"],
                                           width=250)
 
 
@@ -203,7 +195,7 @@ averageForGroup = pn.widgets.Select(name='Average Group? (bool)', value=False, o
 visualizeAverageResults = pn.widgets.Select(name='Visualize Average Results? (bool)', 
                                             value=False, options=[True, False], width=400)
 
-visualize_zscore_or_dff = pn.widgets.Select(name='z-score or \u0394F/F? (for visualization)', options=['z_score', 'dff'], width=400)
+visualize_zscore_or_dff = pn.widgets.Select(name='z-score or \u0394F/F? (for visualization)', options=['z_score', 'dff'], value = 'dff', width=400)
 
 #path = pn.widgets.TextAreaInput(name='Location to Input Parameters file', width=300, height=100)
 

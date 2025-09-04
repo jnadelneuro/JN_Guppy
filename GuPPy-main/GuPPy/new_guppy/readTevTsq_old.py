@@ -368,31 +368,18 @@ def CheckMED(inputParameters, op, filepath, data, storesList):
     #pulling in operant data from R repository for a given animal
     # JN altering this to align by animal and date instead
     # operantPath = r"R:\Basic_Sciences\Phys\Lerner_Lab_tnl2633\Evan\aCUS_C7_Active_Avoidance\official_analysis\behavior\output_datafiles\OperantData.h5py"
-    operantPath = r"R:\Basic_Sciences\Phys\Lerner_Lab_tnl2633\Jacob\aCUS\ALL_RI60_PHOTO\behavior\output_datafiles\OperantData.h5py"
+    operantPath = r'/Volumes/fsmresfiles/Basic_Sciences/Phys/Lerner_Lab_tnl2633/Evan/aCUS_C7_Active_Avoidance/offical_analysis/behavior/output_datafiles/OperantData.h5py'
     # OLD RK fileVals = filepath.split('\\')[-1].split('-')[0].split('_') #['LBN', '078', 'RI60R12S1'] extracted from file name give group names in h5 file from R with MED data
     # following line extracts mouse number (e.g. 531-1) and date (yymmdd eg 230124)
     try:
         fileVals = [inputParameters['storeNameSelect'], "-".join(filepath.split('\\')[-1].split('_')[3].split('-')[0:2]), filepath.split('\\')[-1].split('_')[3].split('-')[2]]
     except:
-        try:
-            fileVals = [inputParameters['storeNameSelect'], '-'.join(filepath.split('\\')[-1].split('_')[0].split('-')[0:2]), filepath.split('\\')[-1].split('_')[1].split('-')[2]]
-        except:
-            try:
-                fileVals = [inputParameters['storeNameSelect'], '-'.join(filepath.split('\\')[-1].split('_')[2].split('-')[0:2]), filepath.split('\\')[-1].split('_')[2].split('-')[2]]
-            except:
-                print('aw beans no h5 shit or something idk man')
-
+        fileVals = [inputParameters['storeNameSelect'], '-'.join(filepath.split('\\')[-1].split('_')[1].split('-')[0:2]), filepath.split('\\')[-1].split('_')[1].split('-')[2]]
+    
     fileKeys = ['Experiment', 'Subject', 'Paradigm']
     #if fileVals[0] == 'LN' or fileVals[0] == 'LNC' or fileVals[0] == 'LBNC' or fileVals[0] == 'LNBC': #common typo in my data
     #    fileVals[0] = 'LBN'
     fileD = dict(zip(fileKeys, fileVals)) #{'Experiment': 'LBN', 'Subject': '078', 'Paradigm': 'RI60R12S1'}
-    if '_' in fileD['Experiment']:
-        fileD['Experiment'] = fileD['Experiment'].split('_')[0]
-    if 'WT' in fileD['Subject']:
-        fileD['Subject'] = fileD['Subject'][2:]
-    if len(fileD['Subject']) < 4:
-        fileD['Subject'] = '-'.join('_'.join(filepath.split('\\')[-1].split('_')[2:4]).split('-')[0:2])
-        fileD['Subject'] = fileD['Subject'].replace('_','.')
     H5group = '/'.join(fileD.values()) #'data.LBN/078/RI60R12S1'
     with h5py.File(operantPath, 'r') as f: #with is here to close everything up nicely... could just close it though
         OperantH5_dict = dict()

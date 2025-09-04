@@ -14,7 +14,7 @@ from numpy import int32, uint32, uint8, uint16, float64, int64, int32, float32
 import panel as pn
 from random import randint
 from pathlib import Path
-import holoviews as hv
+# import holoviews as hv
 import warnings
 import tkinter as tk
 from tkinter import ttk, StringVar
@@ -142,7 +142,8 @@ def saveStorenames(inputParameters, data, event_name, flag, filepath):
 
         @pn.depends(plot_select=plot_select)
         def plot(plot_select):
-            return hv.Curve((d[plot_select]['x'], d[plot_select]['y'])).opts(width=550)
+            a=1
+            # return hv.Curve((d[plot_select]['x'], d[plot_select]['y'])).opts(width=550)
     else:
         pass
 
@@ -802,7 +803,8 @@ def saveStorenames_altRK_JN(inputParametersPath, data, filepath):
         "RPUn": "Right poke unrewarded",
         "RRew": "Right poke rewarded",
         "TlSt": "Trial start"
-    },
+    }
+    
     AA_storenames = {
         "405A": "control_DMS",
         "405C": "control_TS",
@@ -831,7 +833,7 @@ def saveStorenames_altRK_JN(inputParametersPath, data, filepath):
         "Sock": "PE_NR_Ts"
     }
 
-    RI60_storenames = {
+    RI60_storenames_both = {
         "405A": "control_DMS",
         "405C": "control_TS",
         "465A": "signal_DMS",
@@ -841,7 +843,26 @@ def saveStorenames_altRK_JN(inputParametersPath, data, filepath):
         'RePE': 'RewardPE',
         'UnNP': 'UnrewardedNP',
         'UnPE': 'UnrewardedPE'
+    }
 
+    RI60_storenames_DMS = {
+        "405A": "control_DMS",
+        "465A": "signal_DMS",
+        'InNP': 'InactiveNP',
+        'ReNP': 'RewardNP',
+        'RePE': 'RewardPE',
+        'UnNP': 'UnrewardedNP',
+        'UnPE': 'UnrewardedPE'
+    }    
+    
+    RI60_storenames_TS = {
+        "405A": "control_TS",
+        "465A": "signal_TS",
+        'InNP': 'InactiveNP',
+        'ReNP': 'RewardNP',
+        'RePE': 'RewardPE',
+        'UnNP': 'UnrewardedNP',
+        'UnPE': 'UnrewardedPE'
     }
 
     # are we in DV or 405 situation: remove unneeded events
@@ -849,7 +870,7 @@ def saveStorenames_altRK_JN(inputParametersPath, data, filepath):
     # if ASAP is selected then it's just all the same
     # import re
     if "Dv1A" in allnames:
-        removenames = ['Fi1d', 'Fi1r', 'Fi1i', "Fi1d", "Fi2d"]
+        removenames = ['Fi1d', 'Fi1r', 'Fi1i', "Fi1d", "Fi2d",'Fi2i']
         somenames = [e for e in allnames if e not in removenames]
     else:
         removenames = ['Fi1r', 'Fi1i', 'Fi2r', 'Fi2i', "Fi1d",
@@ -866,9 +887,16 @@ def saveStorenames_altRK_JN(inputParametersPath, data, filepath):
     elif inputParametersPath['storeNameSelect'] == 'Avoid':
         thenames = [AA_storenames.get(e, e) for e in somenames]
         arr3, arr4 = list(AA_storenames.keys()), list(AA_storenames.values())
-    elif inputParametersPath['storeNameSelect'] == 'RI60':
-        thenames = [RI60_storenames.get(e, e) for e in somenames]
-        arr3, arr4 = list(RI60_storenames.keys()), list(RI60_storenames.values())
+    elif "RI60" in inputParametersPath['storeNameSelect']:
+        if "TS" in inputParametersPath['storeNameSelect']:
+            thenames = [RI60_storenames_TS.get(e, e) for e in somenames]
+            arr3, arr4 = list(RI60_storenames_TS.keys()), list(RI60_storenames_TS.values())
+        if "DMS" in inputParametersPath['storeNameSelect']:
+            thenames = [RI60_storenames_DMS.get(e, e) for e in somenames]
+            arr3, arr4 = list(RI60_storenames_DMS.keys()), list(RI60_storenames_DMS.values())
+        if "Both" in inputParametersPath['storeNameSelect']:
+            thenames = [RI60_storenames_both.get(e, e) for e in somenames]
+            arr3, arr4 = list(RI60_storenames_both.keys()), list(RI60_storenames_both.values())
 
     # if any(x in filename for x in ["_RI30", "_RI60", "_FR1R","_FR1L", "_Shock"]):
     #    thenames = [switcher_def.get(e,e) for e in somenames]

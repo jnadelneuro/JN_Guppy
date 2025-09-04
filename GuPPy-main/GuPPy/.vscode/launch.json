@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Debug GuPPy",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/savingInputParameters.py",
+      "console": "integratedTerminal",
+      "env": {
+        // prepend the Library\\bin folder so MKL DLLs are found
+        "PATH": "C:\\Users\\jan7154\\Anaconda3\\envs\\jimmy\\Library\\bin;${env:PATH}"
+      }
+    }
+  ]
+}

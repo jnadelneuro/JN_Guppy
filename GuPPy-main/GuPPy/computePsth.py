@@ -18,7 +18,7 @@ from preprocess import get_all_stores_for_combining_data
 from computeCorr import computeCrossCorrelation
 from computeCorr import getCorrCombinations
 from computeCorr import make_dir
-import pyarrow.feather as feather
+# import pyarrow.feather as feather
 
 # function to read hdf5 file
 def read_hdf5(event, filepath, key):

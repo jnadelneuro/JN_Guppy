@@ -25,14 +25,14 @@ def make_dir(filepath):
     return op
 
 
-os.chdir(r'C:\Users\jan7154\Documents\GitHub\JN_Guppy\GuPPy-main\GuPPy')
+os.chdir(r'/Users/evanswanson/Documents/GitHub/JN_Guppy/GuPPy-main/GuPPy')
 template = pn.template.MaterialTemplate(title='Input Parameters GUI')
 
 #pn.config.sizing_mode = 'stretch_width'
 
 mark_down_1 = pn.pane.Markdown("""**Select folders for the analysis from the file selector below**""", width=600)
 #previously '~', no C:\Users\rfkov\Documents\SynapseData\LBN_Synapse_Data
-files_1 = pn.widgets.FileSelector(r'R:\Basic_Sciences\Phys\Lerner_Lab_tnl2633\Jacob\aCUS\ALL_RI60_PHOTO\photometry', name='folderNames', height=300, width=800)
+files_1 = pn.widgets.FileSelector(r'/Volumes/Data 02', name='folderNames', height=300, width=800)
 
 
 explain_time_artifacts = pn.pane.Markdown("""
@@ -76,9 +76,9 @@ numberOfCores = pn.widgets.LiteralInput(name='# of cores (int)', value=5, type=i
 
 combine_data = pn.widgets.Select(name='Combine Data? (bool)', value=False, options=[True, False], width=125)
 
-computePsth = pn.widgets.Select(name='z_score and/or \u0394F/F? (psth)', options=['Both', 'z_score', 'dff'], value='Both', width=250)
+computePsth = pn.widgets.Select(name='z_score and/or \u0394F/F? (psth)', options=['Both', 'z_score', 'dff'], value='z_score', width=250)
 
-transients = pn.widgets.Select(name='z_score and/or \u0394F/F? (transients)', options=['Both', 'z_score', 'dff'], value='Both', width=250)
+transients = pn.widgets.Select(name='z_score and/or \u0394F/F? (transients)', options=['Both', 'z_score', 'dff'], value='z_score', width=250)
 
 plot_zScore_dff = pn.widgets.Select(name='z-score plot and/or \u0394F/F plot?', options=['z_score', 'dff', 'Both', 'None'], value='None', width=250)
 
@@ -100,8 +100,8 @@ artifactsRemovalMethod = pn.widgets.Select(name='removeArtifacts method',
 # JN ADDING 2/4/23
 # this is to add a button that will let me select among storenames based on experiment
 storeNameSelect = pn.widgets.Select(name='storenames set', 
-                                           value='RI60_Both', 
-                                           options=['ASAP', 'RI60_DMS','RI60_TS','RI60_Both',"Avoid"],
+                                           value='Avoid', 
+                                           options=['ASAP', 'RI60',"Avoid"],
                                           width=250)
 
 
